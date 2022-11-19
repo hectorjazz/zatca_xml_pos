@@ -74,4 +74,4 @@ $RECYCLE.BIN/
 *.lnk
 
 # Generated XML files from tests
-/tests/*.xml
+# /tests/*.xml
