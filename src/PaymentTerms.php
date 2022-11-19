@@ -11,6 +11,7 @@ class PaymentTerms implements XmlSerializable
     private $settlementDiscountPercent;
     private $amount;
     private $settlementPeriod;
+    private $currencyID = "SAR";
 
     /**
      * @return string
@@ -100,7 +101,7 @@ class PaymentTerms implements XmlSerializable
                     'name' => Schema::CBC . 'Amount',
                     'value' => number_format($this->amount, 2, '.', ''),
                     'attributes' => [
-                        'currencyID' => 'EUR'
+                        'currencyID' => $this->currencyID
                     ]
                 ]
             ]);

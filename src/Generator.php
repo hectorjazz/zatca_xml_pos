@@ -8,7 +8,7 @@ class Generator
 {
     public static $currencyID;
 
-    public static function invoice(Invoice $invoice, $currencyId = 'EUR')
+    public static function invoice(Invoice $invoice, $currencyId = 'SAR')
     {
         self::$currencyID = $currencyId;
 
@@ -24,8 +24,13 @@ class Generator
             'urn:oasis:names:specification:ubl:schema:xsd:SignatureBasicComponents-2' => 'sbc'
         ];
 
-        return $xmlService->write('Invoice', [
-            $invoice
-        ]);
+        $w = $xmlService->getWriter();
+        $w->openMemory();
+        $w->contextUri = null;
+        $w->setIndent(true);
+        $w->startDocument('1.0', 'UTF-8');
+        $w->writeElement('Invoice',[$invoice]);
+        return $w->outputMemory();
+
     }
 }

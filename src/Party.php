@@ -8,7 +8,7 @@ use Sabre\Xml\XmlSerializable;
 class Party implements XmlSerializable
 {
     private $name;
-    private $partyIdentificationId;
+    private $partyIdentification;
     private $postalAddress;
     private $physicalLocation;
     private $contact;
@@ -34,20 +34,20 @@ class Party implements XmlSerializable
     }
 
     /**
-     * @return string
+     * @return PartyIdentification
      */
-    public function getPartyIdentificationId(): ?string
+    public function getPartyIdentification()
     {
-        return $this->partyIdentificationId;
+        return $this->partyIdentification;
     }
 
     /**
-     * @param string $partyIdentificationId
+     * @param string $partyIdentification
      * @return Party
      */
-    public function setPartyIdentificationId(?string $partyIdentificationId): Party
+    public function setPartyIdentification(?PartyIdentification $partyIdentification): Party
     {
-        $this->partyIdentificationId = $partyIdentificationId;
+        $this->partyIdentification = $partyIdentification;
         return $this;
     }
 
@@ -149,20 +149,25 @@ class Party implements XmlSerializable
      */
     public function xmlSerialize(Writer $writer)
     {
-        if ($this->partyIdentificationId !== null) {
+        if ($this->partyIdentification !== null) {
             $writer->write([
-                Schema::CAC . 'PartyIdentification' => [
-                    Schema::CBC . 'ID' => $this->partyIdentificationId
-                ],
+                Schema::CAC . 'PartyIdentification' => $this->partyIdentification
             ]);
         }
 
-        $writer->write([
-            Schema::CAC . 'PartyName' => [
-                Schema::CBC . 'Name' => $this->name
-            ],
-            Schema::CAC . 'PostalAddress' => $this->postalAddress
-        ]);
+        if($this->name){
+            $writer->write([
+                Schema::CAC . 'PartyName' => [
+                    Schema::CBC . 'Name' => $this->name
+                ]]
+            );
+        }
+
+        if($this->postalAddress){
+            $writer->write([
+                Schema::CAC . 'PostalAddress' => $this->postalAddress
+            ]);
+        }
 
         if ($this->physicalLocation !== null) {
             $writer->write([

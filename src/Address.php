@@ -13,6 +13,8 @@ class Address implements XmlSerializable
     private $cityName;
     private $postalZone;
     private $country;
+    private $plotIdentification;
+    private $citySubdivisionName;
 
     /**
      * @return string
@@ -124,6 +126,42 @@ class Address implements XmlSerializable
     }
 
     /**
+     * @return string
+     */
+    public function getPlotIdentification(): ?string
+    {
+        return $this->plotIdentification;
+    }
+
+    /**
+     * @param string $plotIdentification
+     * @return Address
+     */
+    public function setPlotIdentification(string $plotIdentification): Address
+    {
+        $this->plotIdentification = $plotIdentification;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCitySubdivisionName(): ?string
+    {
+        return $this->citySubdivisionName;
+    }
+
+    /**
+     * @param string $citySubdivisionName
+     * @return Address
+     */
+    public function setCitySubdivisionName(string $citySubdivisionName): Address
+    {
+        $this->citySubdivisionName = $citySubdivisionName;
+        return $this;
+    }
+
+    /**
      * The xmlSerialize method is called during xml writing.
      *
      * @param Writer $writer
@@ -144,6 +182,16 @@ class Address implements XmlSerializable
         if ($this->buildingNumber !== null) {
             $writer->write([
                 Schema::CBC . 'BuildingNumber' => $this->buildingNumber
+            ]);
+        }
+        if ($this->plotIdentification !== null) {
+            $writer->write([
+                Schema::CBC . 'PlotIdentification' => $this->plotIdentification
+            ]);
+        }
+        if ($this->citySubdivisionName !== null) {
+            $writer->write([
+                Schema::CBC . 'CitySubdivisionName' => $this->citySubdivisionName
             ]);
         }
         if ($this->cityName !== null) {

@@ -10,6 +10,7 @@ class AdditionalDocumentReference implements XmlSerializable
     private $id;
     private $documentType;
     private $attachment;
+    private $uuid;
 
     /**
      * @return string
@@ -66,19 +67,45 @@ class AdditionalDocumentReference implements XmlSerializable
     }
 
     /**
+     * @return string
+     */
+    public function getUUID(): ?string
+    {
+        return $this->uuid;
+    }
+
+    /**
+     * @param string $uuid
+     * @return AdditionalDocumentReference
+     */
+    public function setUUID($uuid): AdditionalDocumentReference
+    {
+        $this->uuid = $uuid;
+        return $this;
+    }
+
+    /**
      * The xmlSerialize method is called during xml writing.
      *
      * @param Writer $writer
      * @return void
      */
+
     public function xmlSerialize(Writer $writer)
     {
         $writer->write([ Schema::CBC . 'ID' => $this->id ]);
+        if ($this->uuid !== null){
+            $writer->write([
+                Schema::CBC . 'UUID' => $this->uuid
+            ]);
+        }
         if ($this->documentType !== null) {
             $writer->write([
                 Schema::CAC . 'DocumentType' => $this->documentType
             ]);
         }
-        $writer->write([ Schema::CAC . 'Attachment' => $this->attachment ]);
+        if ($this->attachment){
+            $writer->write([ Schema::CAC . 'Attachment' => $this->attachment ]);
+        }
     }
 }

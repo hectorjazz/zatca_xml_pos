@@ -11,6 +11,12 @@ class TaxScheme implements XmlSerializable
     private $taxTypeCode;
     private $name;
 
+    private $idAttributes;
+    //  = [
+    //     'schemeID' => "UN/ECE 5153", 
+    //     'schemeAgencyID' => "6"
+    // ];
+
     /**
      * @return string
      */
@@ -23,9 +29,12 @@ class TaxScheme implements XmlSerializable
      * @param string $id
      * @return TaxScheme
      */
-    public function setId(string $id): TaxScheme
+    public function setId(string $id, $attributes = null): TaxScheme
     {
         $this->id = $id;
+        if(isset($attributes)){
+            $this->idAttributes = $attributes;
+        }
         return $this;
     }
 
@@ -67,14 +76,20 @@ class TaxScheme implements XmlSerializable
 
     public function xmlSerialize(Writer $writer)
     {
-        $writer->write([
-            Schema::CBC . 'ID' => $this->id
-        ]);
+        if($this->id){
+            $writer->write([
+                'name' => Schema::CBC . 'ID',
+                'value' => $this->getId(),
+                'attributes' => $this->idAttributes,
+            ]);
+        }
+
         if ($this->taxTypeCode !== null) {
             $writer->write([
                 Schema::CBC . 'TaxTypeCode' => $this->taxTypeCode
             ]);
         }
+
         if ($this->name !== null) {
             $writer->write([
                 Schema::CBC . 'Name' => $this->name

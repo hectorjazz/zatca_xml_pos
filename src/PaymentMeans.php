@@ -10,9 +10,10 @@ class PaymentMeans implements XmlSerializable
 {
     private $paymentMeansCode = 1;
     private $paymentMeansCodeAttributes = [
-        'listID' => 'UN/ECE 4461',
-        'listName' => 'Payment Means',
-        'listURI' => 'http://docs.oasis-open.org/ubl/os-UBL-2.0-update/cl/gc/default/PaymentMeansCode-2.0.gc'];
+        // 'listID' => 'UN/ECE 4461',
+        // 'listName' => 'Payment Means',
+        // 'listURI' => 'http://docs.oasis-open.org/ubl/os-UBL-2.0-update/cl/gc/default/PaymentMeansCode-2.0.gc'
+    ];
     private $paymentDueDate;
     private $instructionId;
     private $instructionNote;

@@ -32,7 +32,7 @@ class ExtensionContent implements XmlSerializable
     public function xmlSerialize(Writer $writer)
     {
         $writer->write([
-            Schema::EXT . 'ExtensionContent' => $this->UBLDocumentSignatures
+            Schema::SIG . 'UBLDocumentSignatures' => $this->UBLDocumentSignatures
         ]);
     }
 }

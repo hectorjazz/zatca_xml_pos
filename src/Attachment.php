@@ -11,6 +11,7 @@ use InvalidArgumentException;
 class Attachment implements XmlSerializable
 {
     private $filePath;
+    private $fileContent;
 
     /**
      * @throws Exception exception when the mime type cannot be determined
@@ -61,6 +62,24 @@ class Attachment implements XmlSerializable
     }
 
     /**
+     * @return string
+     */
+    public function getFileContent(): ?string
+    {
+        return $this->fileContent;
+    }
+
+    /**
+     * @param string $fileContent
+     * @return Attachment
+     */
+    public function setFileContent(string $fileContent): Attachment
+    {
+        $this->fileContent = $fileContent;
+        return $this;
+    }
+
+    /**
      * The xmlSerialize method is called during xml writing.
      *
      * @param Writer $writer
@@ -68,18 +87,27 @@ class Attachment implements XmlSerializable
      */
     public function xmlSerialize(Writer $writer)
     {
-        $fileContents = base64_encode(file_get_contents($this->filePath));
-        $mimeType = $this->getFileMimeType();
-
-        $this->validate();
-
-        $writer->write([
-            'name' => Schema::CBC . 'EmbeddedDocumentBinaryObject',
-            'value' => $fileContents,
-            'attributes' => [
-                'mimeCode' => $mimeType,
-                'filename' => basename($this->filePath)
-            ]
-        ]);
+        if($this->filePath){
+            $fileContent = base64_encode(file_get_contents($this->filePath));
+            $mimeType = $this->getFileMimeType();
+            $this->validate();
+            $writer->write([
+                'name' => Schema::CBC . 'EmbeddedDocumentBinaryObject',
+                'value' => $fileContent,
+                'attributes' => [
+                    'mimeCode' => $mimeType,
+                    'filename' => basename($this->filePath)
+                ]
+            ]);
+        }else if($this->fileContent){
+            $mimeType = "text/plain";
+            $writer->write([
+                'name' => Schema::CBC . 'EmbeddedDocumentBinaryObject',
+                'value' => $this->fileContent,
+                'attributes' => [
+                    'mimeCode' => $mimeType,
+                ]
+            ]);
+        }
     }
 }
