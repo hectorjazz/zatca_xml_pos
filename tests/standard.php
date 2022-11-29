@@ -21,14 +21,14 @@ $legalEt1 = (new \BaseetApp\UBL\LegalEntity())
 $supplierCompany = (new \BaseetApp\UBL\Party())
     ->setPartyIdentification(
         (new \BaseetApp\UBL\PartyIdentification())
-            ->setId("311111111111113")
+            ->setId("311111112111113")
             ->setSchemeID("CRN")
     )
     // ->setName('Supplier Company Name')
     // ->setPhysicalLocation($address)
     ->setPartyTaxScheme(
         (new \BaseetApp\UBL\PartyTaxScheme)
-            ->setCompanyId(311111111101113)
+            ->setCompanyId(311111112101113)
             ->setTaxScheme((new \BaseetApp\UBL\TaxScheme)->setId('VAT'))
     )
     ->setPostalAddress($address1)
@@ -57,14 +57,14 @@ $address2 = (new \BaseetApp\UBL\Address())
 $clientCompany = (new \BaseetApp\UBL\Party())
     ->setPartyIdentification(
         (new \BaseetApp\UBL\PartyIdentification())
-            ->setId("311111111111113")
+            ->setId("311111112111113")
             ->setSchemeID("NAT")
-    )23
+    )
     // ->setName('My client')
     ->setPostalAddress($address2)
     ->setPartyTaxScheme(
         (new \BaseetApp\UBL\PartyTaxScheme)
-            // ->setCompanyId(311111111101113)
+            // ->setCompanyId(311111112101113)
             ->setTaxScheme((new \BaseetApp\UBL\TaxScheme)->setId('VAT'))
     )
     // ->setContact($clientContact);
@@ -176,12 +176,12 @@ $additionalDocumentReference2 = (new \BaseetApp\UBL\AdditionalDocumentReference)
             ->setFileContent("NWZlY2ViNjZmZmM4NmYzOGQ5NTI3ODZjNmQ2OTZjNzljMmRiYzIzOWRkNGU5MWI0NjcyOWQ3M2EyN2ZiNTdlOQ==")
     );
 
-$additionalDocumentReference3 = (new \BaseetApp\UBL\AdditionalDocumentReference)
-    ->setId('QR')
-    ->setAttachment(
-        (new \BaseetApp\UBL\Attachment)
-            ->setFileContent("ARNBY21lIFdpZGdldOKAmXMgTFREAg8zMTExMTExMTExMDExMTMDFDIwMjItMDktMDdUMTI6MjE6MjhaBAQ0LjYwBQMwLjYGLFdJNkdOd3R5NFhyVGMzUDFXclJNMXhsaHF6OVRpbVhkQ0xIOXNnbWowU2c9B2BNRVVDSVFDQ0dMN0FKYWNWT2JzN2x1RllUYnNxS3I5cUxaWCtMWWpaaXZPakRObmFZZ0lnVDBTclpaS2szTDhmelY4L0o3aDlwN3dIMEJvcXBsVzBSQmNXT1ZOZVcwdz0IWDBWMBAGByqGSM49AgEGBSuBBAAKA0IABGGDDKDmhWAITDv7LXqLX2cmr6+qddUkpcLCvWs5rC2O29W/hS4ajAK4Qdnahym6MaijX75Cg3j4aao7ouYXJ9E=")
-    );
+// $additionalDocumentReference3 = (new \BaseetApp\UBL\AdditionalDocumentReference)
+//     ->setId('QR')
+//     ->setAttachment(
+//         (new \BaseetApp\UBL\Attachment)
+//             ->setFileContent("ARNBY21lIFdpZGdldOKAmXMgTFREAg8zMTExMTExMTExMDExMTMDFDIwMjItMDktMDdUMTI6MjE6MjhaBAQ0LjYwBQMwLjYGLFdJNkdOd3R5NFhyVGMzUDFXclJNMXhsaHF6OVRpbVhkQ0xIOXNnbWowU2c9B2BNRVVDSVFDQ0dMN0FKYWNWT2JzN2x1RllUYnNxS3I5cUxaWCtMWWpaaXZPakRObmFZZ0lnVDBTclpaS2szTDhmelY4L0o3aDlwN3dIMEJvcXBsVzBSQmNXT1ZOZVcwdz0IWDBWMBAGByqGSM49AgEGBSuBBAAKA0IABGGDDKDmhWAITDv7LXqLX2cmr6+qddUkpcLCvWs5rC2O29W/hS4ajAK4Qdnahym6MaijX75Cg3j4aao7ouYXJ9E=")
+//     );
 
 $invoiceAllowanceCharges = array(
     (new \BaseetApp\UBL\AllowanceCharge)
@@ -214,7 +214,7 @@ $invoice = (new \BaseetApp\UBL\Invoice())
     ->setIssueTime((new \DateTime()))
     ->addAdditionalDocumentReference($additionalDocumentReference1)
     ->addAdditionalDocumentReference($additionalDocumentReference2)
-    ->addAdditionalDocumentReference($additionalDocumentReference3)
+    // ->addAdditionalDocumentReference($additionalDocumentReference3)
     ->Signature(new \BaseetApp\UBL\Signature)
     ->setAccountingSupplierParty($supplierCompany)
     ->setAccountingCustomerParty($clientCompany)
@@ -231,11 +231,11 @@ $invoice = (new \BaseetApp\UBL\Invoice())
 $generator = new \BaseetApp\UBL\Generator();
 $outputXMLString = $generator->invoice($invoice);
 
-echo $outputXMLString;
+// echo $outputXMLString;
 // Create PHP Native DomDocument object, that can be
 // used to validate the generate XML
 $dom = new \DOMDocument;
 
 // $dom->loadXML(mb_convert_encoding($outputXMLString, 'HTML-ENTITIES', 'UTF-8'));
 $dom->loadXML($outputXMLString);
-$dom->save('num.xml');
+$dom->save('standard_num.xml');
