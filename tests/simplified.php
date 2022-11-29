@@ -234,12 +234,12 @@ $additionalDocumentReference1 = (new \BaseetApp\UBL\AdditionalDocumentReference)
     ->setId('ICV')
     ->setUUID('10');
 
-// $additionalDocumentReference2 = (new \BaseetApp\UBL\AdditionalDocumentReference)
-//     ->setId('PIH')
-//     ->setAttachment(
-//         (new \BaseetApp\UBL\Attachment)
-//             ->setFileContent("NWZlY2ViNjZmZmM4NmYzOGQ5NTI3ODZjNmQ2OTZjNzljMmRiYzIzOWRkNGU5MWI0NjcyOWQ3M2EyN2ZiNTdlOQ==")
-//     );
+$additionalDocumentReference2 = (new \BaseetApp\UBL\AdditionalDocumentReference)
+    ->setId('PIH')
+    ->setAttachment(
+        (new \BaseetApp\UBL\Attachment)
+            ->setFileContent("NWZlY2ViNjZmZmM4NmYzOGQ5NTI3ODZjNmQ2OTZjNzljMmRiYzIzOWRkNGU5MWI0NjcyOWQ3M2EyN2ZiNTdlOQ==")
+    );
 
 // $additionalDocumentReference3 = (new \BaseetApp\UBL\AdditionalDocumentReference)
 //     ->setId('QR')
@@ -265,7 +265,8 @@ $invoiceAllowanceCharges = array(
                 ->setPercent(15)
                 ->setTaxScheme(
                     (new \BaseetApp\UBL\TaxScheme)
-                        ->setId("VAT", 
+                        ->setId(
+                            "VAT",
                             array(
                                 'schemeID' => "UN/ECE 5305",
                                 'schemeAgencyID' => "6"
@@ -286,7 +287,7 @@ $invoice = (new \BaseetApp\UBL\Invoice())
     ->setIssueDate(new \DateTime())
     ->setIssueTime((new \DateTime()))
     ->addAdditionalDocumentReference($additionalDocumentReference1)
-    // ->addAdditionalDocumentReference($additionalDocumentReference2)
+    ->addAdditionalDocumentReference($additionalDocumentReference2)
     // ->addAdditionalDocumentReference($additionalDocumentReference3)
     ->Signature(new \BaseetApp\UBL\Signature)
     ->setAccountingSupplierParty($supplierCompany)
