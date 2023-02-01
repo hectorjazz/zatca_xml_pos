@@ -11,7 +11,7 @@ class Item implements XmlSerializable
     private $name;
     private $buyersItemIdentification;
     private $sellersItemIdentification;
-    private $classifiedTaxCategory;
+    private $classifiedTaxCategoryList;
 
     /**
      * @return string
@@ -86,20 +86,20 @@ class Item implements XmlSerializable
     }
 
     /**
-     * @return ClassifiedTaxCategory
+     * @return ClassifiedTaxCategoryList
      */
-    public function getClassifiedTaxCategory(): ?ClassifiedTaxCategory
+    public function getClassifiedTaxCategoryList(): ?array
     {
-        return $this->classifiedTaxCategory;
+        return $this->classifiedTaxCategoryList;
     }
 
     /**
-     * @param ClassifiedTaxCategory $classifiedTaxCategory
+     * @param array $classifiedTaxCategoryList
      * @return Item
      */
-    public function setClassifiedTaxCategory(?ClassifiedTaxCategory $classifiedTaxCategory): Item
+    public function setClassifiedTaxCategoryList(?array $classifiedTaxCategoryList): Item
     {
-        $this->classifiedTaxCategory = $classifiedTaxCategory;
+        $this->classifiedTaxCategoryList = $classifiedTaxCategoryList;
         return $this;
     }
 
@@ -132,10 +132,12 @@ class Item implements XmlSerializable
             ]);
         }
 
-        if (!empty($this->getClassifiedTaxCategory())) {
-            $writer->write([
-                Schema::CAC . 'ClassifiedTaxCategory' => $this->getClassifiedTaxCategory()
-            ]);
+        if (!empty($this->getClassifiedTaxCategoryList())) {
+            foreach($this->getClassifiedTaxCategoryList() as $classifiedTaxCategory){
+                $writer->write([
+                    Schema::CAC . 'ClassifiedTaxCategory' => $classifiedTaxCategory
+                ]);
+            }
         }
     }
 }

@@ -82,16 +82,21 @@ $legalMonetaryTotal = (new \BaseetApp\UBL\LegalMonetaryTotal())
 $taxScheme = (new \BaseetApp\UBL\TaxScheme())
     ->setId("VAT");
 
-$classifiedTax = (new \BaseetApp\UBL\ClassifiedTaxCategory())
-    ->setId("S")
-    ->setPercent(15)
-    ->setTaxScheme($taxScheme);
+$classifiedTax01 = (new \BaseetApp\UBL\ClassifiedTaxCategory())
+->setId("S")
+->setPercent(10)
+->setTaxScheme($taxScheme);
+$classifiedTax02 = (new \BaseetApp\UBL\ClassifiedTaxCategory())
+->setId("S")
+->setPercent(5)
+->setTaxScheme($taxScheme);
+
 // Product
 $productItem = (new \BaseetApp\UBL\Item())
     ->setName('قلم رصاص')
     // ->setDescription('Product Description')
     // ->setSellersItemIdentification('SELLERID')
-    ->setClassifiedTaxCategory($classifiedTax);
+    ->setClassifiedTaxCategoryList(array($classifiedTax01, $classifiedTax02));
 
 
 $invoiceLineAllowanceCharges = array(
@@ -132,18 +137,26 @@ $invoiceLines[] = (new \BaseetApp\UBL\InvoiceLine())
     ->setInvoicedQuantity(2);
 
 // Total Taxes
-$taxCategory = (new \BaseetApp\UBL\TaxCategory())
-    ->setPercent(15)
+$taxCategory_01 = (new \BaseetApp\UBL\TaxCategory())
+    ->setPercent(10)
+    ->setTaxScheme($taxScheme);
+$taxCategory_02 = (new \BaseetApp\UBL\TaxCategory())
+    ->setPercent(5)
     ->setTaxScheme($taxScheme);
 
-$taxSubTotal = (new \BaseetApp\UBL\TaxSubTotal())
+$taxSubTotal_01 = (new \BaseetApp\UBL\TaxSubTotal())
     ->setTaxableAmount(4)
-    ->setTaxAmount(0.6)
-    ->setTaxCategory($taxCategory);
+    ->setTaxAmount(0.4)
+    ->setTaxCategory($taxCategory_01);
 
+$taxSubTotal_02 = (new \BaseetApp\UBL\TaxSubTotal())
+    ->setTaxableAmount(4)
+    ->setTaxAmount(0.2)
+    ->setTaxCategory($taxCategory_02);
 
 $taxTotal = (new \BaseetApp\UBL\TaxTotal())
-    ->addTaxSubTotal($taxSubTotal)
+    ->addTaxSubTotal($taxSubTotal_01)
+    ->addTaxSubTotal($taxSubTotal_02)
     ->setTaxAmount(0.6);
 
 
@@ -188,8 +201,9 @@ $invoiceAllowanceCharges = array(
         ->setChargeIndicator(false)
         ->setAllowanceChargeReason("discount")
         ->setAmount(0)
-        ->setTaxCategory(
-            (new \BaseetApp\UBL\TaxCategory)
+        ->setTaxCategoryList(
+            array(
+                (new \BaseetApp\UBL\TaxCategory)
                 ->setId(
                     "S",
                     array(
@@ -197,11 +211,25 @@ $invoiceAllowanceCharges = array(
                         'schemeAgencyID' => "6"
                     )
                 )
-                ->setPercent(15)
+                ->setPercent(10)
+                ->setTaxScheme(
+                    (new \BaseetApp\UBL\TaxScheme)
+                        ->setId("VAT")
+                ),
+                (new \BaseetApp\UBL\TaxCategory)
+                ->setId(
+                    "S",
+                    array(
+                        'schemeID' => "UN/ECE 5305",
+                        'schemeAgencyID' => "6"
+                    )
+                )
+                ->setPercent(5)
                 ->setTaxScheme(
                     (new \BaseetApp\UBL\TaxScheme)
                         ->setId("VAT")
                 )
+            )
         )
 );
 

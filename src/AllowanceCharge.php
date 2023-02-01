@@ -14,7 +14,7 @@ class AllowanceCharge implements XmlSerializable
     private $baseAmount;
     private $amount;
     private $taxTotal;
-    private $taxCategory;
+    private $taxCategoryList = array();
 
     /**
      * @return bool
@@ -125,20 +125,20 @@ class AllowanceCharge implements XmlSerializable
     }
 
     /**
-     * @return TaxCategory
+     * @return array
      */
-    public function getTaxCategory(): ?TaxCategory
+    public function getTaxCategoryList(): ?array
     {
-        return $this->taxCategory;
+        return $this->taxCategoryList;
     }
 
     /**
-     * @param TaxCategory $taxCategory
+     * @param array $taxCategoryList
      * @return AllowanceCharge
      */
-    public function setTaxCategory(?TaxCategory $taxCategory): AllowanceCharge
+    public function setTaxCategoryList(?array $taxCategoryList): AllowanceCharge
     {
-        $this->taxCategory = $taxCategory;
+        $this->taxCategoryList = $taxCategoryList;
         return $this;
     }
 
@@ -200,10 +200,12 @@ class AllowanceCharge implements XmlSerializable
             ],
         ]);
 
-        if ($this->taxCategory !== null) {
-            $writer->write([
-                Schema::CAC . 'TaxCategory' => $this->taxCategory
-            ]);
+        if (count($this->taxCategoryList) > 0) {
+            foreach($this->taxCategoryList as $taxCategory){
+                $writer->write([
+                    Schema::CAC . 'TaxCategory' => $taxCategory
+                ]);
+            }
         }
 
         if ($this->taxTotal !== null) {
